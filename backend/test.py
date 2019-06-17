@@ -1,5 +1,5 @@
 import json
-from watson_developer_cloud import VisualRecognitionV3
+from ibm_watson import VisualRecognitionV3
 
 visual_recognition = VisualRecognitionV3(
     '2018-03-19',
