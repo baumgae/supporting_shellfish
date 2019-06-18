@@ -43,13 +43,9 @@ class SupportingShellfish(Resource):
         """
         userImage = request.get_json()['image']
 
-        classes_result = visual_recognition.classify(url=userImage).get_result()
+        classes_result = visual_recognition.detect_faces(url=userImage).get_result()
         print(classes_result)
         result = json.dumps(classes_result, indent=2)
         response = make_response(result, 200)
         print(result)
         return response
-
-
-
-
