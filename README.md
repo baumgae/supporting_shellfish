@@ -26,11 +26,17 @@ After the Images have been created, please do the following steps...
 #### Supporting Shellfish Backend
 For running the backend python flask server, please run the 
 following command:
+__Without Docker__:
+````shell
+    python app.py
+````
+
+__With Docker__:
 ```shell
     docker run -p 5000:5000 supporting_shellfish_backend
 ```
 
-Finally open [http://0.0.0.0:5000/api](http://0.0.0.0:5000/api) in your browser to get a sight into the possible operations.<br>
+Finally open [http://0.0.0.0:5000](http://0.0.0.0:5000) in your browser to get a sight into the possible operations.<br>
 
 
 #### more is yet to come...

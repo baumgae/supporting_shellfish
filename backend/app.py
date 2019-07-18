@@ -1,41 +1,36 @@
-from flask import Flask, Blueprint
-from flask_cors import CORS
-from flask_restplus import Api, Namespace, Resource
+from flask import Flask, request, render_template, make_response
 
-from api import restplus
-from api.endpoints import supporting_shellfish_routes
-
-import settings
-import logging
-
+import json
+import visual_recognition
 
 app = Flask(__name__)
-CORS(app)
-log = logging.getLogger(__name__)
 
 
-def configure_app(flask_app):
-    flask_app.config['SERVER_NAME'] = settings.FLASK_SERVER_NAME
-    flask_app.config['SWAGGER_UI_DOC_EXPANSION'] = settings.RESTPLUS_SWAGGER_UI_DOC_EXPANSION
-    flask_app.config['RESTPLUS_VALIDATE'] = settings.RESTPLUS_VALIDATE
-    flask_app.config['RESTPLUS_MASK_SWAGGER'] = settings.RESTPLUS_MASK_SWAGGER
-    flask_app.config['ERROR_404_HELP'] = settings.RESTPLUS_ERROR_404_HELP
+# Get Route - Landing Page
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 
-def initialize_app(flask_app):
-    configure_app(flask_app)
+# Post Route - Receive advice from supporting shellfish
+@app.route('/advice', methods=['POST'])
+def advice():
 
-    blueprint = Blueprint('api', __name__, url_prefix='/api')
-    restplus.api.init_app(blueprint)
-    global_namespace_user = Namespace('supporting_shellfish', path='/supporting_shellfish')
-    restplus.api.add_namespace(global_namespace_user)
-    restplus.api.add_namespace(supporting_shellfish_routes.ns)
-    flask_app.register_blueprint(blueprint)
+    user_image = request.get_json()['image']
+    classes_result = visual_recognition.predictMood(user_image)
+    result = json.dumps(classes_result, indent=2)
+    response = make_response(result, 200)
+
+    print(result)
+    return response
+
 
 def main():
-    initialize_app(app)
-    log.info('>>>>> Starting development server at http://{}/api/ <<<<<'.format(app.config['SERVER_NAME']))
-    app.run(debug= settings.FLASK_DEBUG)
+    """
+        Main function for running the flask server.
+    """
+    app.config['SERVER_NAME'] = '0.0.0.0:5000'
+    app.run(host='0.0.0.0', debug=True)
 
 
 if __name__ == "__main__":
