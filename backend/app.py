@@ -1,7 +1,8 @@
 from flask import Flask, request, render_template, make_response
 
-import json
 import visual_recognition
+import json
+
 
 app = Flask(__name__)
 
@@ -15,9 +16,8 @@ def index():
 # Post Route - Receive advice from supporting shellfish
 @app.route('/advice', methods=['POST'])
 def advice():
-
     user_image = request.get_json()['image']
-    classes_result = visual_recognition.predictMood(user_image)
+    classes_result = visual_recognition.predict_mood(user_image)
     result = json.dumps(classes_result, indent=2)
     response = make_response(result, 200)
 
