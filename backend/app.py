@@ -22,6 +22,9 @@ def advice():
     response = make_response(result, 200)
 
     print(result)
+
+    # Generate Advice?
+    # return render_template('advice.html', predicted = result, advice = advice)
     return response
 
 
