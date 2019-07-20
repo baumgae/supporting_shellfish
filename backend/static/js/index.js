@@ -1,3 +1,4 @@
+var currentImage;
 
 function previewFile() {
     var uploadFileButton = document.getElementById('upload-file');
@@ -7,6 +8,7 @@ function previewFile() {
     if (file) {
         reader.addEventListener("load", function () {
             console.log('base64'+reader.result);
+            currentImage = reader.result;
             preview.src = reader.result;
             uploadFileButton.disabled = false;
         }, false);
@@ -14,14 +16,29 @@ function previewFile() {
         reader.readAsDataURL(file);
     }
 }
-const uploadFile = async () => {
-    const response = await fetch('http://127.0.0.1:5000/advice', {
-        method: 'POST',
-        body: JSON.stringify({"image": "Its me"}),
-        headers: {
-            'dataType': 'json'
+
+function uploadFile() {
+	var uploadFileButton = document.getElementById('upload-file');
+	uploadFileButton.classList.add('is-loading');
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://127.0.0.1:5000/advice');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            //var image = JSON.parse(xhr.responseText);
+			//What to do with response
+			uploadFileButton.classList.remove('is-loading');
         }
+		else {
+			uploadFileButton.classList.remove('is-loading');
+			//display error message
+		}
+    };
+	var jsonData = JSON.stringify({
+        image: currentImage
     });
-    const myJson = await response.json(); //extract JSON from the http response
-    // do something with myJson
-};
+	console.log(jsonData);
+    xhr.send(JSON.stringify({
+        image: currentImage
+    }));
+}
