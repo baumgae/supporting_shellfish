@@ -1,34 +1,39 @@
+# -*- coding: utf-8 -*-
 import os
 import shutil
 
+sourcePath = "C:\\Users\Helga\CloudComputing\Database\Bilder\entpackt"
+destinationPath = "C:\\Users\Helga\CloudComputing\Database\Bilder\destination"
 
-sourcePath = "helgaspPfad/Source_Images"
-destinationPath = "helgasPfad/Destination_Images"
+personList = os.listdir(sourcePath)
+# Get List of emotions from the 1st person without the "mixed"
+emotionList = os.listdir(sourcePath + "\\" + personList[0])	
+# Check if element "mixed" exists in List, before removing
+if "mixed" in emotionList:
+    emotionList.remove("mixed")
 
-for person in sourcePath:
-    path, dirs, files = next(os.walk(sourcePath + "/" + person))
+for person in personList:
+        for emotion in emotionList:
+                for path, takes, files in os.walk(sourcePath + "\\" + person + "\\" + emotion):
+                        # For each take
+                        for take in takes:      
+                                sourceTakePath = os.path.join(sourcePath + "\\" + person + "\\" + emotion, take)
+                                                
+                                # For each picture
+                                for path, dirs, files in os.walk(sourceTakePath):
+                                        file_count = len(files)
+                                        getMiddle = int(file_count / 2)
+                                        selectedIndex = getMiddle +1 
+                                        fileToCopy = files[selectedIndex]          
+                                        print("-- Person " + person + "-- File to copy: " + fileToCopy)
 
-    for emotion in dirs:
-        path, dirs, files = next(os.walk(sourcePath + "/" + person + "/" + emotion))
-        emotion_folder = os.path.dirname(emotion)
+                                        # Duplicate picture and rename it
+                                        base, extension = os.path.splitext(fileToCopy)
+                                        newFileToCopyPath = os.path.join(sourceTakePath, person + "_" + emotion + "_" + take + "_" + base + extension)
+                                        shutil.copy(os.path.join(sourceTakePath, fileToCopy), newFileToCopyPath)
 
-        for take in dirs:
-            path, dirs, files = next(os.walk(sourcePath + "/" + person + "/" + emotion + "/" + take))
-            file_count = len(files)
-            getMiddle = file_count / 2
-
-            fileToCopy = files.index(getMiddle + 1)
-
-            path2, dirs2, files2 = next(os.walk(destinationPath))
-
-            for em in dirs2:
-                if emotion_folder == em:
-                    copy = shutil.copy(fileToCopy, destinationPath + "/" + emotion_folder)
-
-
-
-
-
-
-
+                                        # Move duplicate into destination
+                                        destination = os.path.join(destinationPath, emotion)
+                                        shutil.move(newFileToCopyPath, destination)
+                                        print("Picture moved into:" + emotion)
 
