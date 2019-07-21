@@ -34,7 +34,7 @@ function uploadFile() {
 			//display error message
 		}};
 
-  var jsonData = JSON.stringify({image: currentImage});
-	console.log(jsonData);
-  xhr.send(jsonData);
+    var jsonFile = JSON.stringify({"image": currentImage});
+	console.log(jsonFile);
+	xhr.send(JSON.stringify(jsonFile));
 }
