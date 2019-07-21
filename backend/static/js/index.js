@@ -45,7 +45,7 @@ function uploadFile() {
             uploadFileButton.classList.remove('is-loading');
             document.getElementById('shelly').src="./static/images/Shelly_neutral.png";
             document.getElementById('p1').innerHTML = "I'm Shelly, the Supporting Shellfish.";
-            document.getElementById('p2').innerHTML = "Please Upload a picture of your face.";
+            document.getElementById('p2').innerHTML = "Please upload a picture of your face.";
         }
     };
 

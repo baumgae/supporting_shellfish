@@ -34,11 +34,13 @@ def advice():
         
         classes_result = visual_recognition.predict_mood('temp.png')
         result = json.dumps(classes_result, indent=2)
+        app.logger.debug(result)
+        
         emotion = visual_recognition.get_emotion_json(result)
         app.logger.debug(emotion)
         advice = randomAdvice.get_advice_on_emotion(emotion)
         app.logger.debug(advice)
-        app.logger.debug(result)
+
         
         msg = jsonify({"emotion":emotion, "advice": advice})
         return make_response(msg, 200)
