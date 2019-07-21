@@ -5,12 +5,11 @@ import visual_recognition
 import json
 import logging
 import base64
+from PIL import Image
+from io import BytesIO
 
 app = Flask(__name__)
 # To enable logging for flask-cors,
-# logging.getLogger('flask_cors').level = logging.DEBUG
-
-# logging.basicConfig(level=logging.INFO)
 app.logger.setLevel(logging.DEBUG)
 
 CORS(app)
@@ -23,20 +22,24 @@ def index():
 # Post Route - Receive advice from supporting shellfish
 @app.route('/advice', methods=['POST'])
 def advice():
-    user_image = request.files['image']
-    user_image_decoded = base64.b64encode(user_image.read())
-    # user_image_decoded= base64.decodebytes(user_image)
-    classes_result = visual_recognition.predict_mood(user_image_decoded)
+    app.logger.debug('******')
+    image_json = json.dumps(request.get_json())
+    data = json.loads(image_json)
+    seperatingPosition = data['image'].find(',')
+    image_bytes = data['image'][seperatingPosition+1:]
+    #user_image_decoded = base64.b64decode(image_bytes)
+    im = Image.open(BytesIO(base64.b64decode(image_bytes)))
+    im.save('temp.png','PNG')
+    classes_result = visual_recognition.predict_mood()
 
     result = json.dumps(classes_result, indent=2)
     app.logger.debug('----------------')
-    app.logger.debug(user_image)
     app.logger.debug(result)
 
     # Generate Advice?
-    # return render_template('advice.html', predicted = result, advice = advice)
+    return render_template('index.html')
     #return redirect('/')
-    return "200"
+    #return "200"
 
 
 def main():
