@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, make_response, jsonify
 from flask_cors import CORS
 
 import visual_recognition
+import randomAdvice
 import json
 import logging
 import base64
@@ -30,13 +31,16 @@ def advice():
     #user_image_decoded = base64.b64decode(image_bytes)
     im = Image.open(BytesIO(base64.b64decode(image_bytes)))
     im.save('temp.png','PNG')
-    classes_result = visual_recognition.predict_mood()
-
+    classes_result = visual_recognition.predict_mood('temp.png')
     result = json.dumps(classes_result, indent=2)
+    emotion = visual_recognition.get_emotion_json(result)
+    app.logger.debug(emotion)
+    advice = randomAdvice.get_advice_on_emotion(emotion)
+    app.logger.debug(advice)
+    
     app.logger.debug('----------------')
     app.logger.debug(result)
-
-    # Generate Advice?
+    
     return render_template('index.html')
     #return redirect('/')
     #return "200"
