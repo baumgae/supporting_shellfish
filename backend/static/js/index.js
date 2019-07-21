@@ -20,25 +20,21 @@ function previewFile() {
 function uploadFile() {
 	var uploadFileButton = document.getElementById('upload-file');
 	uploadFileButton.classList.add('is-loading');
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://127.0.0.1:5000/advice');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            //var image = JSON.parse(xhr.responseText);
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'http://127.0.0.1:5000/advice');
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      //var image = JSON.parse(xhr.responseText);
 			//What to do with response
 			uploadFileButton.classList.remove('is-loading');
-        }
+    }
 		else {
 			uploadFileButton.classList.remove('is-loading');
 			//display error message
-		}
-    };
-	var jsonData = JSON.stringify({
-        image: currentImage
-    });
+		}};
+
+  var jsonData = JSON.stringify({image: currentImage});
 	console.log(jsonData);
-    xhr.send(JSON.stringify({
-        image: currentImage
-    }));
+  xhr.send(jsonData);
 }
