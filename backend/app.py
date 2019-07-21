@@ -23,12 +23,11 @@ def index():
 # Post Route - Receive advice from supporting shellfish
 @app.route('/advice', methods=['POST'])
 def advice():
-    app.logger.debug('******')
     image_json = json.dumps(request.get_json())
     data = json.loads(image_json)
     seperatingPosition = data['image'].find(',')
     image_bytes = data['image'][seperatingPosition+1:]
-    #user_image_decoded = base64.b64decode(image_bytes)
+
     im = Image.open(BytesIO(base64.b64decode(image_bytes)))
     im.save('temp.png','PNG')
     classes_result = visual_recognition.predict_mood('temp.png')
@@ -41,9 +40,8 @@ def advice():
     app.logger.debug('----------------')
     app.logger.debug(result)
     
-    return render_template('index.html')
-    #return redirect('/')
-    #return "200"
+    msg = jsonify({"emotion":emotion, "advice": advice})
+    return make_response(msg, 200)
 
 
 def main():

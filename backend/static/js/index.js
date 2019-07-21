@@ -28,6 +28,7 @@ function uploadFile() {
       //var image = JSON.parse(xhr.responseText);
 			//What to do with response
 			uploadFileButton.classList.remove('is-loading');
+			console.log(JSON.parse(xhr.responseText));
     }
 		else {
 			uploadFileButton.classList.remove('is-loading');
