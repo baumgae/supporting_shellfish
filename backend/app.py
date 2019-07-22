@@ -11,7 +11,7 @@ from io import BytesIO
 
 app = Flask(__name__)
 # To enable logging for flask-cors,
-app.logger.setLevel(logging.DEBUG)
+app.logger.setLevel(logging.INFO)
 
 CORS(app)
 
@@ -23,12 +23,20 @@ def index():
 # Post Route - Receive advice from supporting shellfish
 @app.route('/advice', methods=['POST'])
 def advice():
-    try:
-        image_json = json.dumps(request.get_json())
-        data = json.loads(image_json)
-        seperatingPosition = data['image'].find(',')
-        image_bytes = data['image'][seperatingPosition+1:]
+    image_json = json.dumps(request.get_json())
+    data = json.loads(image_json)
+    seperatingPosition = data['image'].find(',')
+    image_bytes = data['image'][seperatingPosition+1:]
 
+    image_metadata = data['image'][:seperatingPosition]
+    # find() returns -1 in case str is not found
+    if image_metadata.find('image') == -1:
+        app.logger.error('File is not an image')
+        user_image = None        
+        msg = jsonify({"message": "bad-type"})
+        return make_response(msg, 400)
+        
+    try:
         im = Image.open(BytesIO(base64.b64decode(image_bytes)))
         im.save('temp.png','PNG')
         
@@ -46,8 +54,8 @@ def advice():
         return make_response(msg, 200)
     except:
         user_image = None        
-        msg = jsonify({"message": "bad-type"})
-        return make_response(msg, 400)
+        msg = jsonify({"message": "general-error"})
+        return make_response(msg, 401)
 
 
 def main():

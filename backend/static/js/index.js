@@ -21,7 +21,10 @@ function previewFile() {
 
 function uploadFile() {
     var uploadFileButton = document.getElementById('upload-file');
+	var openFileButton = document.getElementById('open-filesystem-btn');
     uploadFileButton.classList.add('is-loading');
+	openFileButton.classList.add('is-disabled');
+	
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://127.0.0.1:5000/advice');
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -33,6 +36,7 @@ function uploadFile() {
             document.getElementById('shelly').src="./static/images/Shelly_"+response.emotion+".png";
             document.getElementById('p1').innerHTML = "I can see your "+response.emotion+"! Take my advice: ";
             document.getElementById('p2').innerHTML = response.advice;
+			openFileButton.classList.remove('is-disabled');
         }
         else {
             if (xhr.status === 400){
@@ -46,6 +50,7 @@ function uploadFile() {
             document.getElementById('shelly').src="./static/images/Shelly_neutral.png";
             document.getElementById('p1').innerHTML = "I'm Shelly, the Supporting Shellfish.";
             document.getElementById('p2').innerHTML = "Please upload a picture of your face.";
+			openFileButton.classList.remove('is-disabled');
         }
     };
 

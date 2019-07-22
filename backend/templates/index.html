@@ -30,8 +30,8 @@
                     <img id="img_preview" src="">
             </div>
             <div class="bottom">
-				<label for="upload-photo" class="button">Browse for image ...</label>
-				<input type="file" name="photo" id="upload-photo" accept="image/*" onchange="previewFile()" />
+				<label for="open-filesystem" id="open-filesystem-btn" class="button">Browse for image ...</label>
+				<input type="file" name="photo" id="open-filesystem" accept="image/*" onchange="previewFile()" />
 				<button class="button" type="button" onclick="uploadFile()" id="upload-file" style="margin-top:-5px;" disabled>Upload File</button>
 				<div class="alert is-error" id="bad-type-error" style="display:none; margin-top: 10px">The uploaded file is not an image.</div>
 				<div class="alert is-error" id="general-error" style="display:none; margin-top: 10px">Oh no! Something went wrong. Please try again.</div>
