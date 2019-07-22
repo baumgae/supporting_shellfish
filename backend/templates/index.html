@@ -13,16 +13,16 @@
 <body>
 <div id="wrapper">
     <header>
-        <!-- <h1>Supporting Shellfish</h1> -->
+        <h1>Supporting Shellfish</h1>
     </header>
     <div id="content" class="flex-container">
         <div class="side">
             <div class="speech-bubble">
-                <p>Hi, I'm the Supporting Shellfish.</p>
-                <p>Take my advice.</p>
+                <p id="p1">I'm Shelly, the Supporting Shellfish.</p>
+                <p id="p2">Please upload a picture of your face.</p>
             </div>
             <div id="shellfish">
-                <img src="{{ url_for('static', filename='images/shellfish.png') }}" alt="The Supporting Shellfish">
+                <img id="shelly" src="{{ url_for('static', filename='images/Shelly_neutral.png') }}" alt="The Supporting Shellfish">
             </div>
         </div>
         <div class="main">
@@ -30,9 +30,11 @@
                     <img id="img_preview" src="">
             </div>
             <div class="bottom">
-				<label for="upload-photo" class="button">Browse for image ...</label>
-				<input type="file" name="photo" id="upload-photo" accept="image/*" onchange="previewFile()" />
+				<label for="open-filesystem" id="open-filesystem-btn" class="button">Browse for image ...</label>
+				<input type="file" name="photo" id="open-filesystem" accept="image/*" onchange="previewFile()" />
 				<button class="button" type="button" onclick="uploadFile()" id="upload-file" style="margin-top:-5px;" disabled>Upload File</button>
+				<div class="alert is-error" id="bad-type-error" style="display:none; margin-top: 10px">The uploaded file is not an image.</div>
+				<div class="alert is-error" id="general-error" style="display:none; margin-top: 10px">Oh no! Something went wrong. Please try again.</div>
             </div>
         </div>
     </div>

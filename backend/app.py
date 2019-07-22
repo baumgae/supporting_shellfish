@@ -11,7 +11,7 @@ from io import BytesIO
 
 app = Flask(__name__)
 # To enable logging for flask-cors,
-app.logger.setLevel(logging.DEBUG)
+app.logger.setLevel(logging.INFO)
 
 CORS(app)
 
@@ -23,27 +23,39 @@ def index():
 # Post Route - Receive advice from supporting shellfish
 @app.route('/advice', methods=['POST'])
 def advice():
-    app.logger.debug('******')
     image_json = json.dumps(request.get_json())
     data = json.loads(image_json)
     seperatingPosition = data['image'].find(',')
     image_bytes = data['image'][seperatingPosition+1:]
-    #user_image_decoded = base64.b64decode(image_bytes)
-    im = Image.open(BytesIO(base64.b64decode(image_bytes)))
-    im.save('temp.png','PNG')
-    classes_result = visual_recognition.predict_mood('temp.png')
-    result = json.dumps(classes_result, indent=2)
-    emotion = visual_recognition.get_emotion_json(result)
-    app.logger.debug(emotion)
-    advice = randomAdvice.get_advice_on_emotion(emotion)
-    app.logger.debug(advice)
-    
-    app.logger.debug('----------------')
-    app.logger.debug(result)
-    
-    return render_template('index.html')
-    #return redirect('/')
-    #return "200"
+
+    image_metadata = data['image'][:seperatingPosition]
+    # find() returns -1 in case str is not found
+    if image_metadata.find('image') == -1:
+        app.logger.error('File is not an image')
+        user_image = None        
+        msg = jsonify({"message": "bad-type"})
+        return make_response(msg, 400)
+        
+    try:
+        im = Image.open(BytesIO(base64.b64decode(image_bytes)))
+        im.save('temp.png','PNG')
+        
+        classes_result = visual_recognition.predict_mood('temp.png')
+        result = json.dumps(classes_result, indent=2)
+        app.logger.debug(result)
+        
+        emotion = visual_recognition.get_emotion_json(result)
+        app.logger.debug(emotion)
+        advice = randomAdvice.get_advice_on_emotion(emotion)
+        app.logger.debug(advice)
+
+        
+        msg = jsonify({"emotion":emotion, "advice": advice})
+        return make_response(msg, 200)
+    except:
+        user_image = None        
+        msg = jsonify({"message": "general-error"})
+        return make_response(msg, 401)
 
 
 def main():
