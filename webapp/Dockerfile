@@ -1,7 +1,7 @@
 FROM python:3
 
-WORKDIR /backend
-COPY . /backend
+WORKDIR /webapp
+COPY . /webapp
 
 RUN pip install flask
 RUN pip install ibm_watson

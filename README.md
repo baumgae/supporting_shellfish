@@ -2,7 +2,7 @@
 
 This is the team project for studying the functionality of cloud computing!
 
-![Shelly](/backend/static/images/Shelly_happiness.png)
+![Shelly](/information/Intro_Shelly.png)
 
 ## Short Description
 In this project, a cloud-based service will be implemented,
@@ -27,6 +27,7 @@ __With Docker__:
     docker-compose up
 ```
 
-Finally open [http://0.0.0.0:4000](http://0.0.0.0:4000) in your browser and get your advice from shelly!<br>
+Finally open [http://0.0.0.0:4000](http://0.0.0.0:4000) 
+in your browser and get your advice from shelly!<br>
 
 
