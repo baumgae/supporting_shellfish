@@ -7,6 +7,7 @@ RUN pip install flask
 RUN pip install ibm_watson
 RUN pip install flask_cors
 RUN pip install PILLOW
+RUN pip install pyopenssl
 
 
 EXPOSE 4000

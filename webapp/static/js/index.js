@@ -19,6 +19,55 @@ function previewFile() {
     }
 }
 
+function createSnapShoot() {
+    const supported = 'mediaDevices' in navigator;
+
+    var player = document.getElementById('player');
+    var createImageButton = document.getElementById('shoot-image'); // Enable PhotoShoot
+
+    const canvas = document.getElementById('canvas');   // Canvas for Stream and Shoot
+    const context = canvas.getContext('2d');
+
+    const captureButton = document.getElementById('capture');         // Create SnapShoot
+    var preview = document.getElementById('img_preview');             // Look at yourself
+
+    const constraints = {
+        video: true,
+    };
+
+    createImageButton.addEventListener('click', () => {
+        context.disabled = false;
+        captureButton.disabled = false;
+
+        captureButton.addEventListener('click', () => {
+            // Draw the video frame to the canvas.
+            context.drawImage(player, 0, 0, preview.width, preview.height);
+
+            // Create SnapShoot and Upload File
+            var file = context;
+            var reader  = new FileReader();
+            if (file) {
+                reader.addEventListener("Capture...", function () {
+                currentImage = reader.result;
+                preview.src = reader.result;
+                uploadFileButton.disabled = false;
+            }, false);
+
+            reader.readAsDataURL(file);
+        }
+        });
+
+        // Attach the video stream to the video element and autoplay.
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then((stream) => {
+              context.srcObject = stream;
+            });
+
+
+    });
+
+}
+
 function uploadFile() {
     var uploadFileButton = document.getElementById('upload-file');
 	var openFileButton = document.getElementById('open-filesystem-btn');

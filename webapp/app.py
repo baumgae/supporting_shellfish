@@ -64,7 +64,7 @@ def main():
         Main function for running the flask server.
     """
     app.config['SERVER_NAME'] = '0.0.0.0:4000'
-    app.run(debug=True)
+    app.run(debug=True, ssl_context='adhoc')
 
 
 if __name__ == "__main__":

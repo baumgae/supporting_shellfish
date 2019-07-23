@@ -28,11 +28,16 @@
         <div class="main">
             <div class="top box">
                     <img id="img_preview" src="">
+                    <canvas id="canvas" width=320 height=240 disabled></canvas>
             </div>
             <div class="bottom">
 				<label for="open-filesystem" id="open-filesystem-btn" class="button">Browse for image ...</label>
 				<input type="file" name="photo" id="open-filesystem" accept="image/*" onchange="previewFile()" />
-				<button class="button" type="button" onclick="uploadFile()" id="upload-file" style="margin-top:-5px;" disabled>Upload File</button>
+
+                <button class="button" type="button" onclick="createSnapShoot()" id="shoot-image" style="margin-top:-5px;"> Take Snap Shoot</button>
+                <button class="button" type="button" onclick="createSnapShoot()" id="capture" style="margin-top:-5px;" disabled> Capture! </button>
+
+                <button class="button" type="button" onclick="uploadFile()" id="upload-file" style="margin-top:-5px;" disabled>Upload File</button>
 				<div class="alert is-error" id="bad-type-error" style="display:none; margin-top: 10px">The uploaded file is not an image.</div>
 				<div class="alert is-error" id="general-error" style="display:none; margin-top: 10px">Oh no! Something went wrong. Please try again.</div>
             </div>
