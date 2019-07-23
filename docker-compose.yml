@@ -5,8 +5,10 @@ services:
   backend:
     container_name: flask_server
     build:
-      context: backend
-      dockerfile: ./Dockerfile
+      context: webapp
+      dockerfile: Dockerfile
 
-  # frontend:
+    ports:
+        - 4000:4000
+
 

@@ -14,6 +14,15 @@ def predict_image(image):
     return result
 
 
+def predict_mood(image):
+    with open(image, 'rb') as images_file:
+        predicted_class = visual_recognition.classify(
+            images_file,
+            threshold='0.6',
+            classifier_ids='DefaultCustomModel_1997094634').get_result()
+
+
+
 def get_emotion_json(result_of_image):
     data = json.loads(result_of_image)
     first_dict = data['images']
