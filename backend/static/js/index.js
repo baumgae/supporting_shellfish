@@ -26,7 +26,7 @@ function uploadFile() {
 	openFileButton.classList.add('is-disabled');
 	
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://127.0.0.1:5000/advice');
+    xhr.open('POST', 'http://0.0.0.0:4000/advice');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
         if (xhr.status === 200) {

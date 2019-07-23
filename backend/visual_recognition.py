@@ -15,6 +15,7 @@ def predict_mood(image):
             classifier_ids='DefaultCustomModel_1997094634').get_result()
     return predicted_class
 
+
 def get_emotion_json(result_of_image):
     data = json.loads(result_of_image)
     first_dict = data['images']
