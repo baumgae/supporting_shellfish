@@ -1,185 +1,199 @@
 import os
 import tempfile
 
+from flask_sqlalchemy import SQLAlchemy
 import pytest
-import self as self
 
 from flaskr import flaskr
-import flask
-from contextlib import contextmanager
-from flask import appcontext_pushed, g, Response
-from flask import json, jsonify, request
+from flask import Flask, jsonify
+from sqlalchemy.testing.pickleable import User
 
-import click
-from webapp import app
+from webapp import app as _app
+from webapp import  db as _db
+from webapp import  MyModel
+from flask import url_for
+
+from flask_testing import TestCase
+from flask_testing import LiveServerTestCase
+import urllib3
+from webapp import create_app, db
+import unittest
+import flask_testing
+
+
+app = Flask(__name__)
+
+class TestLogin:
+    def test_login_page(self, client):
+        response = client.get("/login")
 
 
 @pytest.fixture
-def client():
-    db_fd, flaskr.app.config['DATABASE'] = tempfile.mkstemp()
-    flaskr.app.config['TESTING'] = True
+def client(app):
+    """Get a test client for your Flask app"""
+    return app.test_client()
 
-    with flaskr.app.test_client() as client:
-        with flaskr.app.app_context():
-            flaskr.init_db()
-        yield client
+@pytest.fixture
+def app():
+    """Yield your app with its context set up and ready"""
 
-    os.close(db_fd)
-    os.unlink(flaskr.app.config['DATABASE'])
-
-## Test empty database
-
-def test_empty_db(client):
-    """Start with a blank database."""
-
-    rv = client.get('/')
-    assert b'No entries here so far' in rv.data
+    with _app.app_context():
+        yield _app
 
 
-#Logging In and Out
-
-def login(client, username, password):
-    return client.post('/login', data=dict(
-        username=username,
-        password=password
-    ), follow_redirects=True)
-
-
-def logout(client):
-    return client.get('/logout', follow_redirects=True)
+class TestLogin:
+    def test_login_page(self, client):
+        # Use url_for to generate the URL for the endpoint directing the route "/login".
+        # If you want to test the logic of user.login, there is no need to include
+        # the route in the tests.
+        response = client.get(url_for("user.login"))
+        assert response.status_code == 200
 
 
-def test_login_logout(client):
-    """Make sure login and logout works."""
+def app():
+    # Append "_test" to the name of the DB used for tests
+    db_uri = _app.config["SQLALCHEMY_DATABASE_URI"]
+    test_db_uri = f"{db_uri}_test"
+    _app.update(SQLALCHEMY_DATABASE_URI=test_db_uri)
 
-    rv = login(client, flaskr.app.config['USERNAME'], flaskr.app.config['PASSWORD'])
-    assert b'You were logged in' in rv.data
+    with _app.app_context():
+        yield _app
 
-    rv = logout(client)
-    assert b'You were logged out' in rv.data
+app = Flask(__name__)
+db = SQLAlchemy()
+db.init_app(app)
 
-    rv = login(client, flaskr.app.config['USERNAME'] + 'x', flaskr.app.config['PASSWORD'])
-    assert b'Invalid username' in rv.data
+@pytest.fixture
+def db(app):
+    # Even though the "app" fixture is not used in this function, the context
+    # of the app object need to be loaded for everything to work smoothly. Ugh...
 
-    rv = login(client, flaskr.app.config['USERNAME'], flaskr.app.config['PASSWORD'] + 'x')
-    assert b'Invalid password' in rv.data
+    # We clean up the database before running each unit test
+    _db.drop_all()
+    _db.create_all()
 
+    return _db
 
-## Test Adding Messages
+@pytest.fixture
+def my_model(db):
+    # Set up
+    model = MyModel(name="Foo Bar")
+    db.session.add(model)
+    db.session.commit()
 
-def test_messages(client):
-    """Test that messages work."""
+    return model
 
-    login(client, flaskr.app.config['USERNAME'], flaskr.app.config['PASSWORD'])
-    rv = client.post('/add', data=dict(
-        title='<Hello>',
-        text='<strong>HTML</strong> allowed here'
-    ), follow_redirects=True)
-    assert b'No entries here so far' not in rv.data
-    assert b'&lt;Hello&gt;' in rv.data
-    assert b'<strong>HTML</strong> allowed here' in rv.data
+@pytest.fixture(scope="session")
+def app():
+    db_uri = _app.config["SQLALCHEMY_DATABASE_URI"]
+    test_db_uri = f"{db_uri}_test"
+    _app.update(SQLALCHEMY_DATABASE_URI=test_db_uri)
 
+    with _app.app_context():
+        yield _app
 
-app = flask.Flask(__name__)
+@pytest.fixture(scope="session")
+def db(app):
+    _db.drop_all()
+    _db.create_all()
 
-with app.test_request_context('/?name=Peter'):
-    assert flask.request.path == '/'
-    assert flask.request.args['name'] == 'Peter'
-
-
-with app.test_request_context('/?name=Peter'):
-    app.preprocess_request()
-
-with app.test_request_context('/?name=Peter'):
-    resp = Response('...')
-    resp = app.process_response(resp)
-
-
-## Faking Resources and Context
-
-def get_user():
-    user = getattr(g, 'user', None)
-    if user is None:
-        user = fetch_current_user_from_database()
-        g.user = user
-    return user
-
-@contextmanager
-def user_set(app, user):
-    def handler(sender, **kwargs):
-        g.user = user
-    with appcontext_pushed.connected_to(handler, app):
-        yield
-
-@app.route('/users/me')
-def users_me():
-    return jsonify(username=g.user.username)
-
-with user_set(app, my_user):
-    with app.test_client() as c:
-        resp = c.get('/users/me')
-        data = json.loads(resp.data)
-        self.assert_equal(data['username'], my_user.username)
+    return _db
 
 
-## Keeping the Context around
+@pytest.fixture
+def my_model(db):
+    # Set up
+    model = MyModel(name="Foo Bar")
+    db.session.add(model)
+    db.session.commit()
 
-with app.test_client() as c:
-    rv = c.get('/?tequila=42')
-    assert request.args['tequila'] == '42'
+    yield model
 
-
-## Accessing and Modifying Sessions
-
-with app.test_client() as c:
-    rv = c.get('/')
-    assert flask.session['foo'] == 42
-
-## Testing Json APIs
-
-@app.route('/api/auth')
-def auth():
-    json_data = request.get_json()
-    email = json_data['email']
-    password = json_data['password']
-    return jsonify(token=generate_token(email, password))
-
-with app.test_client() as c:
-    rv = c.post('/api/auth', json={
-        'email': 'flask@example.com', 'password': 'secret'
-    })
-    json_data = rv.get_json()
-    assert verify_token(email, json_data['token'])
+    # Tear down
+    db.session.delete(model)
+    db.session.commit()
 
 
-## Testing CLI command
+@pytest.fixture
+def session(db):
+    db.session.begin_nested()
 
-@app.cli.command('hello')
-@click.option('--name', default='World')
-def hello_command(name):
-    click.echo(f'Hello, {name}!')
+    yield db.session
 
-def test_hello():
-    runner = app.test_cli_runner()
-
-    # invoke the command directly
-    result = runner.invoke(hello_command, ['--name', 'Flask'])
-    assert 'Hello, Flask' in result.output
-
-    # or by name
-    result = runner.invoke(args=['hello'])
-    assert 'World' in result.output
-
-def upper(ctx, param, value):
-    if value is not None:
-        return value.upper()
-
-@app.cli.command('hello')
-@click.option('--name', default='World', callback=upper)
-def hello_command(name):
-    click.echo(f'Hello, {name}!')
+    db.session.rollback()
 
 
-def test_hello_params():
-    context = hello_command.make_context('hello', ['--name', 'flask'])
-    assert context.params['name'] == 'FLASK'
+######################################## ANOTHER EXAMPLE ##################################################
+
+class MyTest(TestCase):
+
+    def create_app(self):
+
+        app = Flask(__name__)
+        app.config['TESTING'] = True
+        return app
+
+class MyTest(LiveServerTestCase):
+
+    def create_app(self):
+        app = Flask(__name__)
+        app.config['TESTING'] = True
+
+        # Set to 0 to have the OS pick the port.
+        app.config['LIVESERVER_PORT'] = 0
+
+        return app
+
+    def test_server_is_up_and_running(self):
+        response = urllib3.urlopen(self.get_server_url())
+        self.assertEqual(response.code, 200)
+
+# Testing JSON response
+@app.route("/ajax/")
+def some_json():
+    return jsonify(success=True)
+
+class TestViews(TestCase):
+    def test_some_json(self):
+        response = self.client.get("/ajax/")
+        self.assertEquals(response.json, dict(success=True))
+
+class MyTest(TestCase):
+
+    SQLALCHEMY_DATABASE_URI = "sqlite://"
+    TESTING = True
+
+    def create_app(self):
+
+        # pass in test configuration
+        return create_app(self)
+
+    def setUp(self):
+
+        db.create_all()
+
+    def tearDown(self):
+
+        db.session.remove()
+        db.drop_all()
+
+class SomeTest(MyTest):
+
+    def test_something(self):
+
+        user = User()
+        db.session.add(user)
+        db.session.commit()
+
+        # this works
+        assert user in db.session
+
+        response = self.client.get("/")
+
+        # this raises an AssertionError
+        assert user in db.session
+
+# your test cases
+
+if __name__ == '__main__':
+    unittest.main()
