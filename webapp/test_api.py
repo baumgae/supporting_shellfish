@@ -2,7 +2,7 @@ import visual_recognition
 import json
 import random
 
-local_image = 'kevin.jpg'
+local_image = 'test/kevin.jpg'
 
 with open('util/advices.json') as json_file:
     advices = json.load(json_file)
@@ -20,7 +20,6 @@ def predict_mood(image):
             images_file,
             threshold='0.6',
             classifier_ids='DefaultCustomModel_1997094634').get_result()
-
 
 
 def get_emotion_json(result_of_image):
