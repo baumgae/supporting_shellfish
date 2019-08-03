@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="234758f7-447d-4a96-bb64-6c41a2b48447" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webapp/test_flaskr.py" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/test_flaskr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/information/Intro_Shelly.png" beforeDir="false" afterPath="$PROJECT_DIR$/information/Intro_Shelly.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/static/images/Shelly_anger.png" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/static/images/Shelly_anger.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/static/images/Shelly_disgust.png" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/static/images/Shelly_disgust.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/static/images/Shelly_fear.png" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/static/images/Shelly_fear.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/static/images/Shelly_happiness.png" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/static/images/Shelly_happiness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/static/images/Shelly_neutral.png" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/static/images/Shelly_neutral.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/static/images/Shelly_sadness.png" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/static/images/Shelly_sadness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/static/images/Shelly_surprise.png" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,16 +20,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="test_flaskr.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/webapp/test_flaskr.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" column="29" lean-forward="true" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#32#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
+      <file leaf-file-name="Shelly_suprise.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/webapp/static/images/Shelly_suprise.png">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file leaf-file-name="Supporting_Shellfish.psd" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/webapp/static/images/Supporting_Shellfish.psd">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file leaf-file-name="Shelly_neutral.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/webapp/static/images/Shelly_neutral.png">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file leaf-file-name="Shelly_fear.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/webapp/static/images/Shelly_fear.png">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file leaf-file-name="Shelly_anger.png" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/webapp/static/images/Shelly_anger.png">
+          <provider selected="true" editor-type-id="images" />
         </entry>
       </file>
     </leaf>
@@ -80,7 +98,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -104,10 +121,18 @@
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="supporting_shellfish" type="b2602c69:ProjectViewProjectNode" />
+              <item name="supporting_shellfish" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="images" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -153,23 +178,22 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32965517" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.32965517" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32363635" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25035766" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.62482756" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25444266" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -217,10 +241,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/backend/api/endpoints/supporting_shellfish_routes.py" />
-    <entry file="file://$PROJECT_DIR$/backend/settings.py" />
-    <entry file="file://$PROJECT_DIR$/extract_features.py" />
-    <entry file="file://$PROJECT_DIR$/backend/test_flaskr.py" />
     <entry file="file://$PROJECT_DIR$/backend/Dockerfile" />
     <entry file="file://$PROJECT_DIR$/backend/app.py" />
     <entry file="file://$PROJECT_DIR$/README.md" />
@@ -269,16 +289,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webapp/Dockerfile">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/flask_testing/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5100">
-          <caret line="116" column="8" selection-start-line="116" selection-start-column="8" selection-end-line="116" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/flask_testing/utils.py" />
     <entry file="file://$PROJECT_DIR$/webapp/static/css/kube.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1568" />
@@ -288,21 +299,24 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1035">
           <caret line="69" column="26" lean-forward="true" selection-start-line="69" selection-start-column="26" selection-end-line="69" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#73#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webapp/test_flaskr.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="29" lean-forward="true" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/webapp/test_flaskr.py" />
+    <entry file="file://$PROJECT_DIR$/webapp/static/images/Shelly_suprise.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webapp/static/images/Supporting_Shellfish.psd">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webapp/static/images/Shelly_neutral.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webapp/static/images/Shelly_fear.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webapp/static/images/Shelly_anger.png">
+      <provider selected="true" editor-type-id="images" />
     </entry>
   </component>
 </project>
